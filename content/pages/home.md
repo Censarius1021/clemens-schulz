@@ -1,7 +1,7 @@
 ---
 title: "Clemens Schulz"
 hero_caption: "Bilder von unterwegs — einfach aus dem Leben."
-hero_image: "home/hero.png"   # Datei in content/home/ ablegen; sonst Platzhalter
+hero_image: "home/hero.jpg"   # Datei in content/home/ ablegen; sonst Platzhalter
 featured: ["fulda", "stuttgart"]   # Reisen, die auf der Startseite gezeigt werden
 ---
 

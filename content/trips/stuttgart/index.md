@@ -3,9 +3,9 @@ title: "Stuttgart"
 location: "Stuttgart, Deutschland"
 date: "2024-05"
 intro: "Streifzüge durch Stuttgart — Architektur, Kessel, Licht zwischen den Häusern."
-cover: "photos/image.png"
+cover: "photos/image.jpg"
 photos:
-  - src: "photos/image.png"
+  - src: "photos/image.jpg"
     alt: "Stuttgart — bitte beschreiben (Ort + Motiv)"
 ---
 

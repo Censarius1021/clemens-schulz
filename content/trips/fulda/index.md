@@ -3,11 +3,11 @@ title: "Fulda"
 location: "Fulda, Deutschland"
 date: "2024-09"
 intro: "Fulda – eine wunderschöne Stadt, die mich vom Vibe an Italien erinnert hat – vor allem das Eis bei der Eisdiele Bonifacius und dass die Stadt durch und durch katholisch ist. Die Herzlichkeit, die die Stadt und ihre Bewohner versprühen, ist wirklich zauberhaft."
-cover: "photos/Bild.png"
+cover: "photos/Bild.jpg"
 photos:
-  - src: "photos/Bild.png"
+  - src: "photos/Bild.jpg"
     alt: "Barbecue-Restaurant Tondas in Fulda"
-  - src: "photos/image.png"
+  - src: "photos/image.jpg"
     alt: "Kloster Fulda am Abend"
 ---
 
