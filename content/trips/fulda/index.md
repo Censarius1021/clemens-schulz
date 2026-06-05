@@ -6,9 +6,9 @@ intro: "Fulda – eine wunderschöne Stadt, die mich vom Vibe an Italien erinner
 cover: "photos/Bild.png"
 photos:
   - src: "photos/Bild.png"
-    alt: "Fulda — bitte beschreiben (Ort + Motiv)"
+    alt: "Barbecue-Restaurant Tondas in Fulda"
   - src: "photos/image.png"
-    alt: "Fulda — bitte beschreiben (Ort + Motiv)"
+    alt: "Kloster Fulda am Abend"
 ---
 
 <!-- Tipp: Reihenfolge der Fotos = Reihenfolge in der Liste oben.
