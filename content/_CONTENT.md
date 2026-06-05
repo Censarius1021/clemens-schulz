@@ -28,7 +28,8 @@ als Dateien daneben. Alles wird mit Git versioniert. **Kein CMS.**
    photos:                          # geordnete Liste
      - src: "photos/01.jpg"
        alt: "Ort + Motiv (Pflicht)"
-       caption: "kurze Notiz"       # optional
+       caption: "kurze Notiz"       # optional; ohne caption wird der alt-Text
+                                    # als Bildunterschrift unter dem Foto gezeigt
      - src: "photos/02.jpg"
        alt: "…"
    ---

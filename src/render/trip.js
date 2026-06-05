@@ -11,8 +11,10 @@ function photoFigure(base, images, photo) {
     height: photo.height,
     sizes: "(min-width: 1024px) 1024px, 100vw",
   });
-  const caption = photo.caption
-    ? `<figcaption class="caption">${esc(photo.caption)}</figcaption>`
+  // Show an explicit caption if set; otherwise fall back to the alt text.
+  const captionText = photo.caption || photo.alt;
+  const caption = captionText
+    ? `<figcaption class="caption">${esc(captionText)}</figcaption>`
     : "";
   return `<figure class="trip-photo reveal">
             ${img}
