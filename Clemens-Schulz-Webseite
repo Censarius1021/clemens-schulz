@@ -1,0 +1,252 @@
+# clemensschulz.com — Site Structure & Build Reference
+
+> Context for Claude Code. This documents the structure, page templates, and intended build of a personal photography portfolio site for **Clemens Schulz**, a hobby photographer who wants to share his images and something about his life. Read fully before generating code.
+>
+> The visual design is adapted from a reference editorial-portfolio site (monochrome, image-first, Cambon-style display serif over a system sans). That design direction is well-suited to a photo portfolio and is carried over here; the content model and routes have been redesigned for a photographer, not a brand/celebrity portfolio.
+
+## Overview
+
+Personal portfolio for Clemens Schulz — a hobby photographer. The site has two jobs: **show his photographs** (organized by the trips and places where they were taken) and **tell a bit about him** (his life, how he got into photography, the gear he uses, and short written notes about individual images). It is content-light and image-heavy: photographs carry the experience, text stays brief and personal.
+
+- **Nature:** Largely static, personal site. No e-commerce, no auth, no user accounts.
+- **Primary content type:** Image galleries grouped by **trip / location**, plus a small number of written pages (about, blog, contact, gear).
+- **Tone:** Personal and understated — a passionate amateur sharing his work, not a commercial brand.
+
+## Global Layout
+
+Every page shares an identical header and footer. Only the central content block changes.
+
+### Header / Navigation
+- Site wordmark or simple logo "Clemens Schulz" (links to `/`). Plain text set in the display face is fine — no graphic logo required.
+- Navigation, kept deliberately simple. Suggested grouping:
+  - **Galleries** → list of trips/places (links to `/galleries`, and/or a dropdown of recent trips)
+  - **About** → `/about`
+  - **Journal** → `/journal` (blog / notes on individual photos)
+  - **Gear** → `/gear`
+  - **Contact** → `/contact`
+- Optional social icons (e.g. Instagram) if Clemens wants them — otherwise omit to keep it minimal.
+
+### Footer
+- Name / short tagline (e.g. "Clemens Schulz — Photography").
+- Optional social icon(s).
+- Legal links: **Impressum** (`/imprint`) and **Datenschutzhinweis** (`/privacy`). These are required for a privately operated site in Germany — keep them.
+- Optional copyright line, e.g. "© {year} Clemens Schulz. All photographs are my own."
+
+## Routes / Sitemap
+
+```
+/                         Homepage — brief intro + featured images, entry into galleries
+/galleries                Index — list of all trips/places, each linking to its gallery
+/galleries/{slug}         Trip gallery detail (one per trip/location)
+/about                    About / life story
+/journal                  Journal index — list of posts/notes
+/journal/{slug}           Individual journal post (notes on a photo or trip)
+/gear                     Equipment page — cameras, lenses, etc.
+/contact                  Contact page
+/imprint                  Legal — Impressum
+/privacy                  Legal — Datenschutzhinweis
+```
+
+Slugs should be clean and human-readable, e.g. `/galleries/fulda`, `/galleries/stuttgart`, `/journal/why-i-shoot-film`. Treat the slug as the stable identifier; derive it from the trip/post title.
+
+## Page Templates
+
+There are five distinct templates.
+
+### 1. Homepage (`/`)
+- Optional full-width hero image or a short slideshow of a few favourite shots.
+- One or two lines of personal intro (who Clemens is, what he photographs).
+- A small selection of featured trips or images that link through into the galleries.
+- Standard header + footer.
+
+### 2. Galleries Index (`/galleries`)
+- Page heading (e.g. *TRIPS* or *GALLERIES*).
+- A grid (or clean vertical list) of trips. Each entry shows a representative cover photo, the trip/place name, and optionally the year/location.
+- Each entry links to its gallery detail page (`/galleries/{slug}`).
+- No long body copy — the heading plus the trip grid.
+
+Current galleries (to scaffold with — extend as Clemens adds trips):
+
+| slug | title | location |
+|---|---|---|
+| `fulda` | Fulda | Fulda, Germany |
+| `stuttgart` | Stuttgart | Stuttgart, Germany |
+
+### 3. Trip Gallery Detail (`/galleries/{slug}`)
+- Heading: the trip/place name (e.g. `# FULDA` or `# Stuttgart`).
+- A short intro: 1–3 sentences about the trip — when, where, what it was like.
+- A stack or grid of large photographs from that trip, flowing vertically. Optional per-image captions.
+- Optional small meta line (location, date, camera used) — keep subtle.
+- No prev/next required, though a link back to `/galleries` is helpful.
+
+### 4. Written Page (`/about`, `/gear`, `/contact`)
+- Single-column, readable measure.
+- **About:** heading + multi-paragraph life story (how he got into photography, what draws him to it), optionally a portrait photo.
+- **Gear:** heading + a simple list or short prose describing his cameras, lenses, and any other equipment. A plain list is fine here (this is one of the few places a list is natural).
+- **Contact:** heading + how to reach him (email link, social). Keep it simple; a contact *form* is optional and, if added, must follow the form-handling caveat in Build Notes.
+
+### 5. Journal Index + Post (`/journal`, `/journal/{slug}`)
+- **Index:** heading + a reverse-chronological list of posts. Each item shows title, date, and optionally a thumbnail and a one-line excerpt.
+- **Post:** heading (post title) + date + body copy (notes about a photo, a trip, or a thought), interleaved with the relevant image(s). Same readable single-column measure as the written pages.
+
+The galleries follow the **index → detail pattern**; the journal follows an **index → post pattern**. Both reuse the same global chrome.
+
+## Suggested Data Model
+
+The site reduces to a few simple content types:
+
+```
+Trip (gallery)
+  slug            e.g. "fulda"         (stable identifier)
+  title           e.g. "Fulda"
+  location        e.g. "Fulda, Germany" (optional)
+  date            e.g. "2024-09"        (trip date, for ordering/labels)
+  intro           short description, 1–3 sentences, optional
+  cover           image used on the galleries index
+  photos[]        ordered list of Photo
+
+Photo
+  url
+  alt             meaningful description
+  caption         optional short note
+  meta            optional { location, date, camera, lens }
+
+JournalPost
+  slug
+  title
+  date
+  body            richtext, interleaved with images
+  images[]        { url, alt, caption }
+
+AboutPage   (singleton)   bio richtext + optional portrait
+GearPage    (singleton)   list/prose of equipment
+ContactPage (singleton)   contact details (+ optional form)
+```
+
+Plus two static **legal** pages (`/imprint`, `/privacy`).
+
+## Design Plan
+
+> The visual design is adapted from an editorial-portfolio reference and is a strong fit for a photography site: strictly monochrome, image-first, quiet chrome. Where the reference site used a commercially licensed display serif (Cambon), this plan uses a free alternative (Fraunces) so the site can be built without licensing cost. Measured layout values from the reference are kept as a sensible starting point; adjust to taste for a personal site.
+
+### Design Principles
+- **Strictly monochrome.** Black and white only, no accent color. Color enters only through the photographs.
+- **Image-first.** Large-format photography dominates; UI elements stay minimal and never compete with the work.
+- **Editorial, not corporate.** Generous whitespace, confident typography, no cards, no shadows, no rounded "app" styling.
+- **Type contrast as the signature.** A flared/old-style display serif for headlines against a clean system sans for body, nav, and UI.
+- **Italic as a deliberate device.** Use italic for captions, labels, and secondary headlines — sparingly, never for the main H1.
+- **Quiet chrome.** Header/footer recede; the photographs own the viewport.
+- **Personal, not flashy.** This is one person sharing his work — keep motion and effects restrained.
+
+### Color Tokens
+| Token | Value | Usage |
+|---|---|---|
+| `--color-black` | `#000000` | Body text, footer background |
+| `--color-white` | `#FFFFFF` | Page background, text on dark/hero |
+| `--color-text-primary` | `rgb(0,0,0)` | All body copy |
+| `--color-text-on-dark` | `rgb(255,255,255)` | Text over a photo/hero background |
+| `--color-footer-bg` | `#000000` | Footer |
+
+No brand accent color by design — resist adding one.
+
+### Typography
+Two roles: a **display serif** for headlines and a **system-UI sans** (`system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`) for all body, nav, and UI text. The system stack is free and needs no substitution.
+
+| Element | Font | Size | Weight | Style | Line-height | Transform | Notes |
+|---|---|---|---|---|---|---|---|
+| H1 (page title) | display serif | 64px | 400 | normal | 72px | uppercase | margin: 20px 0 10px |
+| H2 (secondary headline) | display serif | 64px | 400 | italic | 72px | uppercase | margin: 20px 0 40px |
+| Body / copy | system-UI | 15px | 300 | normal | 24px | none | |
+| Body base | system-UI | 16px | 400 | normal | 20px | none | |
+| Nav links | system-UI | 15px | 400 | normal | 20px | uppercase | padding: 10px 15px |
+| Photo caption / label | system-UI | 15px | 300 | italic | 24px | none | margin-top: 16px |
+| Hero caption | system-UI | 18px | 300 | italic | 24px | none | white on hero |
+
+These are desktop values — define responsive overrides for tablet/mobile (headings smaller, grids collapse to one column).
+
+### Free Display Font (recommended)
+
+Use a free, OFL-licensed (commercial-use-OK) **flared / old-style serif** for the display role — *not* a slab serif, which has the wrong personality.
+
+1. **Fraunces** (recommended) — open-source display serif (Undercase Type / Google Fonts, SIL OFL). Variable font with weight, optical-size (`opsz`), softness (`SOFT`), and wonk (`WONK`) axes. For the 64px H1/H2, push `opsz` toward its high end for proper display contrast.
+2. **Caladea** (safe/neutral) — OFL serif, quieter and more conservative; use if a more restrained headline is preferred.
+
+```css
+/* Google Fonts (variable) */
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400&display=swap');
+
+:root {
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+```
+
+On large headings set a high optical size, e.g. `font-variation-settings: 'opsz' 144;`. Self-host or load with `font-display: swap` to avoid layout shift.
+
+### Layout & Grid
+**Global container:** max-width `1440px`; horizontal margin `~56.6px` each side (≈5%); main content fills 100% of container width.
+
+**Header / nav:** `position: fixed`, `z-index: 25`, height `80px`, transparent background overlaying content. `display: flex`, `justify-content: space-between`, `align-items: center`. Wordmark left, nav right with each link `padding: 10px 15px`. Because the header is fixed and transparent, **every page must reserve its own top padding** (~140px) so content clears it.
+
+**Hero (homepage):** optional full-width image or short slideshow, up to `100vh`. Any caption bottom-aligned, italic, white.
+
+**Galleries index grid:** two columns (`1fr 1fr`), gap `60px`; section padding `140px 0`. Each cover image ~4:5 portrait or a consistent ratio of your choice; trip name as an italic label below the image (`margin-top: 16px`, 15px/300). Collapses to one column on mobile.
+
+**Trip gallery detail:** single column, centered. Title, short intro, then large photos stacked vertically near full content-width (allow occasional full-bleed). Keep consistent spacing between images; don't randomly mix crop ratios within one gallery.
+
+**Written / journal pages:** single column at a comfortable reading measure (~600–720px), left-aligned body copy.
+
+**Footer:** background `#000000`, wrapper padding `60px 0`, `display: flex`. Name/tagline, optional social icon, legal links white on black.
+
+### Recommended CSS Tokens
+```css
+:root {
+  /* Colors */
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+
+  /* Typography */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+
+  --text-h1-size: 64px;
+  --text-h1-weight: 400;
+  --text-h1-line-height: 72px;
+  --text-h1-transform: uppercase;
+
+  --text-body-size: 15px;
+  --text-body-weight: 300;
+  --text-body-line-height: 24px;
+
+  --text-nav-size: 15px;
+  --text-nav-transform: uppercase;
+
+  /* Layout */
+  --container-max-width: 1440px;
+  --container-padding-x: 56.6px; /* ~5% */
+  --header-height: 80px;
+  --section-padding-y: 140px;
+  --grid-gap: 60px;
+  --grid-columns: 2;
+}
+```
+
+### Motion (use sparingly)
+- Soft fade / fade-up on images as they enter the viewport.
+- Subtle hover on links (underline grow or slight opacity shift) — nothing flashy.
+- Respect `prefers-reduced-motion`.
+
+### What to Avoid
+- Drop shadows, heavy borders, rounded-corner "cards", gradients, generic SaaS/dashboard aesthetics.
+- Decorative accent colors or multiple competing display fonts.
+- Dense UI, sidebars, or anything that distracts from the photographs.
+
+## Build Notes for Implementation
+- Content changes infrequently and is mostly static → a static site generator (Astro, Next.js static export, Eleventy) or a lightweight headless/file-based CMS fits well. Trips and journal posts map cleanly to content collections / Markdown files with frontmatter.
+- Prioritize **image performance**: responsive `srcset`/`sizes`, lazy-load below-the-fold images, eager-load the hero/LCP image, and serve modern formats (`.webp`/`.avif`). For a photographer's site this is the single most important technical concern.
+- Always provide meaningful `alt` text per photo (place + subject).
+- Keep the German legal pages (`/imprint`, `/privacy`) — required for a privately operated German site.
+- The 64px/72px headings and 140px section padding are desktop values — add responsive overrides; two-column grids collapse to one column on mobile.
+- Accessibility: maintain WCAG AA contrast (easy with the monochrome palette), full keyboard navigability with visible focus states, semantic landmarks (`header`, `nav`, `main`, `footer`), and correct heading order.
+- **Contact form (only if added):** do not wire up form submission to a third-party endpoint or add credentials/integrations without Clemens explicitly confirming the provider and details. A plain `mailto:` link is the simplest, safest default.
+- Replace all placeholder trip names, journal posts, gear, and bio copy with Clemens's real content before launch — the lists and example slugs here are scaffolding, not final content.

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000" role="img" aria-label="Platzhalter Fulda">
+  <defs>
+    <linearGradient id="gf" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a3a3a"/>
+      <stop offset="1" stop-color="#121212"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="1000" fill="url(#gf)"/>
+  <g stroke="#ffffff" stroke-opacity="0.06">
+    <line x1="0" y1="333" x2="800" y2="333"/>
+    <line x1="0" y1="666" x2="800" y2="666"/>
+    <line x1="400" y1="0" x2="400" y2="1000"/>
+  </g>
+  <text x="400" y="500" fill="#ffffff" fill-opacity="0.85" font-family="Georgia, serif" font-style="italic" font-size="56" text-anchor="middle" dominant-baseline="middle">Fulda</text>
+  <text x="400" y="560" fill="#ffffff" fill-opacity="0.35" font-family="system-ui, sans-serif" font-size="18" letter-spacing="3" text-anchor="middle">PLATZHALTER</text>
+</svg>

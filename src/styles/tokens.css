@@ -1,0 +1,109 @@
+/* ============================================================
+   tokens.css — Design tokens (three layers: primitive → semantic → component)
+   Single source of truth for the monochrome system. See docs/PRD.md Annex A.
+   Components must ONLY read semantic/component tokens — never raw hex.
+   ============================================================ */
+
+:root {
+  /* ---- Layer 1: Primitive (raw values, not used directly in components) ---- */
+  --ink: #000000;
+  --paper: #ffffff;
+  /* The ONLY "greys" allowed: translucent black/white for hairlines & overlays */
+  --ink-12: rgba(0, 0, 0, 0.12); /* hairlines, dividers */
+  --ink-60: rgba(0, 0, 0, 0.60); /* muted / meta text on paper (~7:1, AA ✓) */
+  --paper-70: rgba(255, 255, 255, 0.70); /* secondary text on photos */
+  --paper-90: rgba(255, 255, 255, 0.90);
+
+  /* ---- Layer 2: Semantic (what components reference) ---- */
+  --color-text: var(--ink);
+  --color-text-muted: var(--ink-60);
+  --color-bg: var(--paper);
+  --color-text-on-dark: var(--paper);
+  --color-on-dark-muted: var(--paper-70);
+  --color-footer-bg: var(--ink);
+  --color-hairline: var(--ink-12);
+  --color-focus: var(--ink);
+
+  /* ---- Layer 3: Component ---- */
+  --nav-link: var(--color-text);
+  --caption-color: var(--color-text-muted);
+  --footer-text: var(--color-text-on-dark);
+  --cover-ratio: 4 / 5; /* galleries-index cover aspect */
+  --focus-ring: 2px solid var(--color-focus);
+  --focus-offset: 2px;
+
+  /* ---- Typography ---- */
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif;
+
+  --text-meta: 13px;   /* labels, dates, gear meta — uppercase, tracked */
+  --text-sm: 15px;     /* body, nav, captions (brief body) */
+  --text-base: 16px;   /* long-form reading; mobile min (no iOS auto-zoom) */
+  --text-lead: 18px;   /* intro / hero caption */
+  --text-lg: 24px;
+  --text-xl: 32px;
+  --text-display: clamp(40px, 8vw, 64px); /* H1/H2 — fluid, 64px desktop ceiling */
+
+  --lh-meta: 20px;
+  --lh-sm: 24px;
+  --lh-base: 26px;
+  --lh-lead: 28px;
+  --lh-display: 1.05;
+
+  --tracking-meta: 0.04em;
+  --measure: 68ch; /* readable line length for text pages (65–75ch) */
+
+  /* ---- Spacing (8px rhythm) ---- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-14: 56px;
+  --space-20: 80px;
+  --space-28: 112px;
+  --space-35: 140px;
+
+  /* ---- Layout ---- */
+  --container-max: 1440px;
+  --container-pad-x: var(--space-14); /* 56px (brief 56.6 → on-grid) */
+  --header-height: 80px;
+  --header-clearance: var(--space-35); /* ~140px top padding under fixed header */
+  --section-pad-y: var(--space-35);
+  --grid-gap: 64px; /* 8px-grid aligned (brief 60 → 64) */
+  --grid-columns: 2;
+
+  /* ---- Z-index scale ---- */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-header: 25;
+  --z-overlay: 40;
+  --z-modal: 100;
+
+  /* ---- Motion ---- */
+  --motion-fast: 150ms; /* hovers */
+  --motion-base: 240ms; /* image fade-up enter */
+  --motion-exit: 170ms; /* ~70% of enter */
+  --ease-out: cubic-bezier(0.16, 1, 0.30, 1); /* entering */
+  --ease-in: cubic-bezier(0.40, 0, 1, 1); /* exiting */
+}
+
+/* Responsive overrides — headings & section rhythm shrink on smaller screens */
+@media (max-width: 1024px) {
+  :root {
+    --section-pad-y: var(--space-28); /* 112 */
+    --grid-gap: 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --container-pad-x: var(--space-6); /* 24 */
+    --section-pad-y: var(--space-20); /* 80 */
+    --header-clearance: var(--space-28); /* 112 */
+    --grid-columns: 1;
+  }
+}

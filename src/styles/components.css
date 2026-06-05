@@ -1,0 +1,354 @@
+/* ============================================================
+   components.css — Page-level components. M1: hero, intro, featured grid.
+   (Trip detail, journal, forms etc. arrive with their templates in M2.)
+   ============================================================ */
+
+/* ---- Hero (homepage) — single full-bleed image, up to 100dvh ---- */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100dvh;
+  min-height: 480px;
+  overflow: hidden;
+  background: var(--color-text); /* dark fallback while image loads */
+}
+
+.hero__media,
+.hero__media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.hero__media img {
+  object-fit: cover;
+}
+
+/* subtle bottom scrim so caption text stays legible on any photo */
+.hero__scrim {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40%;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.45),
+    rgba(0, 0, 0, 0)
+  );
+  pointer-events: none;
+}
+
+.hero__caption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: var(--space-10);
+  color: var(--color-text-on-dark);
+  font-size: var(--text-lead);
+  font-style: italic;
+  line-height: var(--lh-lead);
+}
+
+/* ---- Intro block ---- */
+.intro {
+  padding-block: var(--section-pad-y);
+}
+
+.intro__title {
+  /* uses h1 styles via element; this just constrains width */
+  max-width: 16ch;
+}
+
+.intro__text {
+  max-width: var(--measure);
+  font-size: var(--text-lead);
+  line-height: var(--lh-lead);
+  margin-top: var(--space-6);
+}
+
+/* ---- Featured / galleries grid ---- */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gap);
+}
+
+.gallery-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.gallery-card__media {
+  position: relative;
+  aspect-ratio: var(--cover-ratio);
+  overflow: hidden;
+  background: var(--color-hairline);
+}
+
+.gallery-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* hover: gentle opacity shift — transform/opacity only, no reflow */
+  transition: opacity var(--motion-base) var(--ease-out);
+  opacity: 0.85;
+}
+
+.gallery-card:hover .gallery-card__media img,
+.gallery-card:focus-visible .gallery-card__media img {
+  opacity: 1;
+}
+
+.gallery-card__label {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  font-style: italic;
+}
+
+.gallery-card__meta {
+  margin-top: var(--space-1);
+  font-size: var(--text-meta);
+  letter-spacing: var(--tracking-meta);
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+/* section heading + "see all" row */
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-6);
+  margin-bottom: var(--space-10);
+}
+
+.link-inline {
+  font-size: var(--text-meta);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-meta);
+  text-decoration: none;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-text);
+  padding-bottom: 2px;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.link-inline:hover,
+.link-inline:focus-visible {
+  opacity: 0.6;
+}
+
+/* ---- Fade-up on scroll (progressively enhanced by motion.js) ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity var(--motion-base) var(--ease-out),
+    transform var(--motion-base) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* If JS is off or motion reduced, never leave content hidden */
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   M2 — interior pages (no hero → reserve header clearance)
+   ============================================================ */
+.page {
+  padding-top: var(--header-clearance);
+  padding-bottom: var(--section-pad-y);
+}
+
+/* ---- Prose: rendered Markdown for text pages & journal posts ---- */
+.prose {
+  max-width: var(--measure);
+}
+
+.prose p {
+  font-size: var(--text-base);
+  line-height: var(--lh-base);
+  margin-block: var(--space-4);
+}
+
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: none;
+  font-style: normal;
+  font-variation-settings: normal;
+  letter-spacing: 0;
+  margin: var(--space-8) 0 var(--space-3);
+}
+
+.prose h2 {
+  font-size: var(--text-xl);
+  line-height: 1.15;
+}
+
+.prose h3 {
+  font-size: var(--text-lg);
+  line-height: 1.2;
+}
+
+.prose ul,
+.prose ol {
+  margin-block: var(--space-4);
+  padding-left: 1.25em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li {
+  font-size: var(--text-base);
+  line-height: var(--lh-base);
+  margin-block: var(--space-1);
+}
+
+.prose li::marker {
+  color: var(--color-text-muted);
+}
+
+.prose a {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.prose a:hover,
+.prose a:focus-visible {
+  opacity: 0.6;
+}
+
+.prose strong {
+  font-weight: 600;
+}
+
+.prose blockquote {
+  margin-block: var(--space-6);
+  padding-left: var(--space-4);
+  border-left: 2px solid var(--color-hairline);
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.prose img {
+  margin-block: var(--space-8);
+}
+
+.contact-email {
+  margin-top: var(--space-8);
+  font-size: var(--text-lead);
+}
+
+/* ============================================================
+   Trip detail (/galerien/{slug})
+   ============================================================ */
+.trip__header {
+  max-width: var(--measure);
+  margin-bottom: var(--space-20);
+}
+
+.trip__meta {
+  margin-bottom: var(--space-4);
+}
+
+.trip__intro {
+  margin-top: var(--space-4);
+}
+
+.trip__photos {
+  display: grid;
+  gap: var(--space-20);
+}
+
+.trip-photo {
+  margin: 0;
+}
+
+.trip-photo img {
+  width: 100%;
+  height: auto;
+}
+
+.trip-photo .caption {
+  margin-top: var(--space-4);
+}
+
+.trip__back {
+  margin-top: var(--space-20);
+}
+
+/* ============================================================
+   Journal (index + post)
+   ============================================================ */
+.journal-list {
+  border-top: 1px solid var(--color-hairline);
+}
+
+.journal-item {
+  padding-block: var(--space-8);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.journal-item__date {
+  margin-bottom: var(--space-2);
+}
+
+.journal-item__title {
+  /* override the giant display H2 — this is a list item title */
+  font-size: var(--text-xl);
+  line-height: 1.15;
+  font-style: normal;
+  text-transform: none;
+  font-variation-settings: normal;
+  margin: 0;
+}
+
+.journal-item__title a {
+  text-decoration: none;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+.journal-item__title a:hover,
+.journal-item__title a:focus-visible {
+  opacity: 0.6;
+}
+
+.journal-item__excerpt {
+  margin-top: var(--space-3);
+  color: var(--color-text-muted);
+}
+
+.post__header {
+  margin-bottom: var(--space-10);
+}
+
+.post__date {
+  margin-bottom: var(--space-3);
+}
+
+.post__back {
+  margin-top: var(--space-20);
+}

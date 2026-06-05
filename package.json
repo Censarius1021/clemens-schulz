@@ -1,0 +1,22 @@
+{
+  "name": "clemensschulz-com",
+  "version": "0.3.0",
+  "private": true,
+  "type": "module",
+  "description": "Persönliches Fotografie-Portfolio für Clemens Schulz. Inhalte als Markdown, gerendert zu statischem HTML, gebündelt mit Vite. Selbst-gehostete Schriften, responsive Bilder, SEO. Deploybar auf GitHub Pages.",
+  "scripts": {
+    "optimize": "node scripts/optimize-images.mjs",
+    "generate": "node scripts/generate.mjs",
+    "prepare-content": "node scripts/optimize-images.mjs && node scripts/generate.mjs",
+    "dev": "npm run prepare-content && vite",
+    "build": "npm run prepare-content && vite build",
+    "preview": "vite preview",
+    "fetch-fonts": "node scripts/fetch-fonts.mjs"
+  },
+  "devDependencies": {
+    "gray-matter": "^4.0.3",
+    "marked": "^12.0.2",
+    "sharp": "^0.33.5",
+    "vite": "^5.4.0"
+  }
+}
