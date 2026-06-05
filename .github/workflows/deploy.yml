@@ -24,6 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true # create/enable the Pages site (build type: GitHub Actions)
       - uses: actions/setup-node@v4
         with:
           node-version: 20
